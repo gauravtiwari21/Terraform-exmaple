@@ -4,6 +4,7 @@ Terraform example to setup ubuntu server with motd update
 # Pre-requisites:
 1. Should have AWS key and secret available
 2. Should have a key pair created in AWS and available locally.
+3. Terraform must be installed 
 
 # How to run:
 execute run .sh with parameters as follows:
