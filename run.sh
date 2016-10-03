@@ -17,6 +17,7 @@ Usage: run.sh arguments...
 --key-name      AWS key pair needed to conenct over ssh into the instance, THIS MUST BE AVAILABLE IN ADVANCE
 --key-path      Loal path to the pem key file for the key pair, this will be used by terraform to run scripts
 END
+exit 0
 }
 
 #Lets parse some args neede to pass to terraform
@@ -60,6 +61,8 @@ do
           KEY_NAME=$val ;;
         key-path)
           KEY_PATH=$val ;;
+	help)
+ 	  usage ;;
       esac ;;
     h)
       usage ;;
@@ -72,5 +75,5 @@ checkargs AWS_KEY AWS_SECRET REGION KEY_NAME KEY_PATH
 terraform apply -var aws_key="${AWS_KEY}" -var aws_secret="${aws_secret}" -var motd_path="${MOTD_PATH}" -var key_path="${KEY_PATH}" -var region="${REGION}" -var key_name="${KEY_NAME}" || reject "There were problems in running terraform, please see console log for details" 
 cat << EOF
  "Please connect via ssh using ubuntu user Following is the ssh comamnd needed to connect:"
- ssh -i ${KEY_PATH} ubuntu@$(terraform output | cut -d '=' -f2)
+ ssh -i ${KEY_PATH} ubuntu@$(terraform output | cut -d '=' -f2 | tr -d ' ')
 EOF
